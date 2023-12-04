@@ -1,13 +1,13 @@
-use crate::day_two_ast::{ColorEnum, Cube, Game, Round};
+use crate::day_two_ast::{Cube, Game, Round};
 use crate::day_two_parser::GamesParser;
 
 pub fn part_one(input: &str) -> u32 {
     let parser = GamesParser::new();
 
     let maxima = Round::from_cubes(vec![
-        Cube(12, ColorEnum::Red),
-        Cube(13, ColorEnum::Green),
-        Cube(14, ColorEnum::Blue),
+        Cube(12, "red".to_string()),
+        Cube(13, "green".to_string()),
+        Cube(14, "blue".to_string()),
     ]);
 
     let games: Vec<Game> = parser.parse(input).unwrap();

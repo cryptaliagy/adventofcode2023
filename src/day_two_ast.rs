@@ -1,17 +1,10 @@
 use std::collections::HashMap;
 
-#[derive(PartialEq, Eq, Hash, Clone)]
-pub enum ColorEnum {
-    Red,
-    Blue,
-    Green,
-}
-
 #[derive(Clone)]
-pub struct Cube(pub u32, pub ColorEnum);
+pub struct Cube(pub u32, pub String);
 
 pub struct Round {
-    cubes: HashMap<ColorEnum, u32>,
+    cubes: HashMap<String, u32>,
 }
 
 impl Round {

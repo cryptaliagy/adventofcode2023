@@ -24,6 +24,7 @@ Separated<T, Sep>:  Vec<T> = {
     },
     T => vec![<>],
 }
+
 Cube: day_two_ast::Cube = {
     <n:Num> <c:Color> => day_two_ast::Cube(n, c)
 };
@@ -32,8 +33,6 @@ Num: u32 = {
     r"[0-9]+" => u32::from_str(<>).unwrap()
 };
 
-Color: day_two_ast::ColorEnum = {
-    "red" => day_two_ast::ColorEnum::Red,
-    "blue" => day_two_ast::ColorEnum::Blue,
-    "green" => day_two_ast::ColorEnum::Green,
+Color: String = {
+    <s:r"[a-zA-Z]+"> => s.to_lowercase()
 };
