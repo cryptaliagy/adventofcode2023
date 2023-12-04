@@ -4,28 +4,31 @@ use std::str::FromStr;
 grammar;
 
 pub Game: day_two_ast::Game = {
-    "Game" <n:Num> ":" <r:Rounds> => day_two_ast::Game::new(n, r)
+    "Game" <n:Num> ":" <r:Rounds> => day_two_ast::Game::new(n, r),
+}
+
+Rounds = Separated<Round, ";">;
+
+Round: day_two_ast::Round = {
+    Separated<Cube, ","> => day_two_ast::Round::from_cubes(<>),
 };
 
-pub Rounds: day_two_ast::RoundsEnum = {
-    <r:Round> => day_two_ast::RoundsEnum::Final(r.to_round()),
-    <r:Round> ";" <rs:Rounds> => day_two_ast::RoundsEnum::Chain(r.to_round(), Box::new(rs)),
-};
-
-pub Round: day_two_ast::RoundEnum = {
-    <c:Cube> => day_two_ast::RoundEnum::Final(c),
-    <c:Cube> "," <r:Round> => day_two_ast::RoundEnum::Chain(c, Box::new(r)),
-};
-
-pub Cube: day_two_ast::Cube = {
+Separated<T, Sep>:  Vec<T> = {
+    <mut v:Separated<T, Sep>> Sep <e:T> => {
+        v.push(e);
+        v
+    },
+    T => vec![<>],
+}
+Cube: day_two_ast::Cube = {
     <n:Num> <c:Color> => day_two_ast::Cube(n, c)
 };
 
-pub Num: u32 = {
+Num: u32 = {
     r"[0-9]+" => u32::from_str(<>).unwrap()
 };
 
-pub Color: day_two_ast::ColorEnum = {
+Color: day_two_ast::ColorEnum = {
     "red" => day_two_ast::ColorEnum::Red,
     "blue" => day_two_ast::ColorEnum::Blue,
     "green" => day_two_ast::ColorEnum::Green,
