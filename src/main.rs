@@ -25,8 +25,8 @@ fn main() {
 
     let result = match args.id.as_str() {
         "1" => match args.part {
-            1 => day_one_part_one(&input),
-            2 => day_one_part_two(&input),
+            1 => day_one::part_one(&input),
+            2 => day_one::part_two(&input),
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);

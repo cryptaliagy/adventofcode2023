@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-pub fn day_one_part_one(input: &str) -> u32 {
+pub fn part_one(input: &str) -> u32 {
     let mut total = 0;
 
     for line in input.lines() {
@@ -16,7 +16,7 @@ pub fn day_one_part_one(input: &str) -> u32 {
     total
 }
 
-pub fn day_one_part_two(input: &str) -> u32 {
+pub fn part_two(input: &str) -> u32 {
     let numbers = HashMap::from([
         ("one", 1),
         ("two", 2),
