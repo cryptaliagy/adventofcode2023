@@ -3,7 +3,11 @@ use std::str::FromStr;
 
 grammar;
 
-pub Game: day_two_ast::Game = {
+pub Games: Vec<day_two_ast::Game> = {
+    Game* => <>
+}
+
+Game: day_two_ast::Game = {
     "Game" <n:Num> ":" <r:Rounds> => day_two_ast::Game::new(n, r),
 }
 
