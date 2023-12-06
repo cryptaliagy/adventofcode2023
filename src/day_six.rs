@@ -4,7 +4,7 @@ pub fn part_one(input: &str) -> usize {
     let time = lines
         .next()
         .unwrap()
-        .split(":")
+        .split(':')
         .nth(1)
         .unwrap()
         .trim()
@@ -15,7 +15,7 @@ pub fn part_one(input: &str) -> usize {
     let distance = lines
         .next()
         .unwrap()
-        .split(":")
+        .split(':')
         .nth(1)
         .unwrap()
         .trim()
@@ -35,7 +35,7 @@ pub fn part_two(input: &str) -> usize {
     let time = lines
         .next()
         .unwrap()
-        .split(":")
+        .split(':')
         .nth(1)
         .unwrap()
         .trim()
@@ -48,7 +48,7 @@ pub fn part_two(input: &str) -> usize {
     let distance = lines
         .next()
         .unwrap()
-        .split(":")
+        .split(':')
         .nth(1)
         .unwrap()
         .trim()
