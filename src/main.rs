@@ -40,6 +40,13 @@ fn main() {
                 std::process::exit(1);
             }
         },
+        "4" => match args.part {
+            1 => day_four::part_one(&input),
+            _ => {
+                eprintln!("Part {} not found", args.part);
+                std::process::exit(1);
+            }
+        },
         _ => {
             eprintln!("Id {} not found", args.id);
             std::process::exit(1);
