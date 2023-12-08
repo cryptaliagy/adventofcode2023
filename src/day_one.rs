@@ -58,7 +58,7 @@ fn find_earliest_val(line: &str, numbers: &HashMap<&str, u32>) -> u32 {
         .map(|(&k, &v)| (line.find(k), v))
         .filter_map(|(i, v)| i.map(|ind| (ind, v)))
         .min_by(|(a, _), (b, _)| a.cmp(b))
-        .unwrap()
+        .expect("No numbers found")
         .1
 }
 

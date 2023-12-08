@@ -47,6 +47,14 @@ fn main() {
                 std::process::exit(1);
             }
         },
+        "5" => match args.part {
+            1 => day_five::part_one(&input) as u32,
+            2 => day_five::part_two(&input) as u32,
+            _ => {
+                eprintln!("Part {} not found", args.part);
+                std::process::exit(1);
+            }
+        },
         "6" => match args.part {
             1 => day_six::part_one(&input) as u32,
             2 => day_six::part_two(&input) as u32,

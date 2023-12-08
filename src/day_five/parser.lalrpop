@@ -1,0 +1,32 @@
+use crate::day_five::ast::*;
+use std::str::FromStr;
+
+grammar;
+
+pub Puzzle: Puzzle = {
+    "seeds:" <n:Num+> <m:Map+> => Puzzle::new(n, m),
+}
+
+pub Puzzle2: Puzzle2 = {
+    "seeds:" <p:SeedPair+> <m:Map+> => Puzzle2::new(p, m),
+}
+
+SeedPair: SeedPair = {
+    <n:Num> <r:Num> => SeedPair(n, r),
+}
+
+Map: Map = {
+    <s:r"[a-zA-Z]+"> "-to-" <t:r"[a-zA-Z]+"> "map:" <m:Mapping+> => Map {
+            source: s.to_string(), 
+            target: t.to_string(), 
+            mappings: m
+        },
+}
+
+Mapping: Mapping = {
+    Num Num Num => Mapping::new(<>),
+};
+
+Num: usize = {
+    r"[0-9]+" => usize::from_str(<>).unwrap()
+};
