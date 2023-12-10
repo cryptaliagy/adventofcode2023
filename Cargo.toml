@@ -11,3 +11,6 @@ lalrpop = "0.20.0"
 [dependencies]
 lalrpop-util = { version = "0.20.0", features = ["lexer", "unicode"] }
 clap = { version = "4.4.10", features = ["derive", "usage", "help"] }
+
+[dev-dependencies]
+rand = "0.8.5"

@@ -5,7 +5,7 @@ use clap::Parser;
 #[command(author, version, about, long_about = None)]
 struct Cli {
     /// The puzzle input ID. Should match with files in the input/ directory
-    id: String,
+    id: u8,
 
     /// The part of the puzzle to solve
     #[arg(short = 'p', default_value = "1")]
@@ -15,16 +15,16 @@ struct Cli {
 fn main() {
     let args = Cli::parse();
 
-    let input = match std::fs::read_to_string(format!("inputs/{}.txt", args.id)) {
+    let input = match std::fs::read_to_string(format!("inputs/{:02}.txt", args.id)) {
         Ok(input) => input,
         Err(_) => {
-            eprintln!("Could not read input file");
+            eprintln!("Could not read input file inputs/{:02}.txt", args.id);
             std::process::exit(1);
         }
     };
 
-    let result = match args.id.as_str() {
-        "1" => match args.part {
+    let result = match args.id {
+        1 => match args.part {
             1 => day_01::part_one(&input),
             2 => day_01::part_two(&input),
             _ => {
@@ -32,7 +32,7 @@ fn main() {
                 std::process::exit(1);
             }
         },
-        "2" => match args.part {
+        2 => match args.part {
             1 => day_02::part_one(&input).into(),
             2 => day_02::part_two(&input).into(),
             _ => {
@@ -40,14 +40,14 @@ fn main() {
                 std::process::exit(1);
             }
         },
-        "4" => match args.part {
+        4 => match args.part {
             1 => day_04::part_one(&input),
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);
             }
         },
-        "5" => match args.part {
+        5 => match args.part {
             1 => day_05::part_one(&input),
             2 => day_05::part_two(&input),
             _ => {
@@ -55,9 +55,17 @@ fn main() {
                 std::process::exit(1);
             }
         },
-        "6" => match args.part {
+        6 => match args.part {
             1 => day_06::part_one(&input),
             2 => day_06::part_two(&input),
+            _ => {
+                eprintln!("Part {} not found", args.part);
+                std::process::exit(1);
+            }
+        },
+        9 => match args.part {
+            1 => day_09::part_one(&input),
+            2 => day_09::part_two(&input),
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);
