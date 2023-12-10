@@ -11,6 +11,13 @@ lalrpop = "0.20.0"
 [dependencies]
 lalrpop-util = { version = "0.20.0", features = ["lexer", "unicode"] }
 clap = { version = "4.4.10", features = ["derive", "usage", "help"] }
+tracing = { version = "0.1.40", optional = true }
+tracing-subscriber = { version = "0.3.18", optional = true }
 
 [dev-dependencies]
 rand = "0.8.5"
+
+[features]
+default = ["logging", "metrics"]
+logging = ["tracing", "tracing-subscriber"]
+metrics = []

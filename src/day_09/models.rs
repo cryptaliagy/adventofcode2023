@@ -43,6 +43,7 @@ impl std::ops::Mul for Rational {
 impl std::ops::Div for Rational {
     type Output = Self;
 
+    #[allow(clippy::suspicious_arithmetic_impl)]
     fn div(self, rhs: Self) -> Self::Output {
         self * Self(rhs.1, rhs.0)
     }
