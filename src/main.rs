@@ -48,16 +48,16 @@ fn main() {
             }
         },
         "5" => match args.part {
-            1 => day_05::part_one(&input) as u32,
-            2 => day_05::part_two(&input) as u32,
+            1 => day_05::part_one(&input),
+            2 => day_05::part_two(&input),
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);
             }
         },
         "6" => match args.part {
-            1 => day_06::part_one(&input) as u32,
-            2 => day_06::part_two(&input) as u32,
+            1 => day_06::part_one(&input),
+            2 => day_06::part_two(&input),
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);

@@ -1,10 +1,10 @@
 use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
-pub struct Mapping(usize, usize, usize);
+pub struct Mapping(i64, i64, i64);
 
 impl Mapping {
-    pub fn new(a: usize, b: usize, c: usize) -> Self {
+    pub fn new(a: i64, b: i64, c: i64) -> Self {
         Self(a, b, c)
     }
 }
@@ -17,7 +17,7 @@ pub struct Map {
 }
 
 impl Map {
-    pub fn map(&self, input: usize) -> usize {
+    pub fn map(&self, input: i64) -> i64 {
         for Mapping(target, source, range) in &self.mappings {
             if *source <= input && input <= *source + *range {
                 return target + (input - source);
@@ -30,14 +30,14 @@ impl Map {
 
 #[derive(Debug)]
 pub struct Puzzle {
-    pub seeds: Vec<usize>,
+    pub seeds: Vec<i64>,
     pub maps: Vec<Map>,
     pub source_maps: HashMap<String, Map>,
     pub target_maps: HashMap<String, Map>,
 }
 
 #[derive(Debug)]
-pub struct SeedPair(pub usize, pub usize);
+pub struct SeedPair(pub i64, pub i64);
 
 #[derive(Debug)]
 pub struct Puzzle2 {
@@ -48,7 +48,7 @@ pub struct Puzzle2 {
 }
 
 impl Puzzle {
-    pub fn new(seeds: Vec<usize>, maps: Vec<Map>) -> Self {
+    pub fn new(seeds: Vec<i64>, maps: Vec<Map>) -> Self {
         let mut source_maps = HashMap::new();
         let mut target_maps = HashMap::new();
 
@@ -65,7 +65,7 @@ impl Puzzle {
         }
     }
 
-    pub fn map(&self, input: usize) -> usize {
+    pub fn map(&self, input: i64) -> i64 {
         let mut label = "seed".to_string();
         let mut output = input;
 
@@ -79,7 +79,7 @@ impl Puzzle {
         output
     }
 
-    pub fn find_closest_location(&self) -> usize {
+    pub fn find_closest_location(&self) -> i64 {
         self.seeds.iter().map(|&seed| self.map(seed)).min().unwrap()
     }
 }
@@ -102,7 +102,7 @@ impl Puzzle2 {
         }
     }
 
-    pub fn map(&self, input: usize) -> usize {
+    pub fn map(&self, input: i64) -> i64 {
         let mut label = "seed".to_string();
         let mut output = input;
 
@@ -116,7 +116,7 @@ impl Puzzle2 {
         output
     }
 
-    pub fn find_closest_location(&self) -> usize {
+    pub fn find_closest_location(&self) -> i64 {
         self.seeds
             .iter()
             .map(|SeedPair(a, b)| (*a..(*a + *b)).map(|x| self.map(x)).min().unwrap())

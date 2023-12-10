@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-pub fn part_one(input: &str) -> u32 {
+pub fn part_one(input: &str) -> i64 {
     let mut total = 0;
 
     for line in input.lines() {
@@ -13,10 +13,10 @@ pub fn part_one(input: &str) -> u32 {
         total += (first * 10) + last;
     }
 
-    total
+    total as i64
 }
 
-pub fn part_two(input: &str) -> u32 {
+pub fn part_two(input: &str) -> i64 {
     let numbers = HashMap::from([
         ("one", 1),
         ("two", 2),
@@ -52,7 +52,7 @@ pub fn part_two(input: &str) -> u32 {
     total
 }
 
-fn find_earliest_val(line: &str, numbers: &HashMap<&str, u32>) -> u32 {
+fn find_earliest_val(line: &str, numbers: &HashMap<&str, i64>) -> i64 {
     numbers
         .iter()
         .map(|(&k, &v)| (line.find(k), v))
@@ -62,7 +62,7 @@ fn find_earliest_val(line: &str, numbers: &HashMap<&str, u32>) -> u32 {
         .1
 }
 
-fn find_latest_val(line: &str, numbers: &HashMap<&str, u32>) -> u32 {
+fn find_latest_val(line: &str, numbers: &HashMap<&str, i64>) -> i64 {
     numbers
         .iter()
         .map(|(&k, &v)| (line.rfind(k), v))
