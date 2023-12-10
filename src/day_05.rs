@@ -1,7 +1,7 @@
 use lalrpop_util::lalrpop_mod;
 
 pub(crate) mod ast;
-lalrpop_mod!(pub(crate) parser, "/day_five/parser.rs");
+lalrpop_mod!(pub(crate) parser, "/day_05/parser.rs");
 
 use parser::{Puzzle2Parser, PuzzleParser};
 

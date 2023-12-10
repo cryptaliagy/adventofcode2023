@@ -1,20 +1,20 @@
-use crate::day_two_ast;
+use crate::day_02::ast;
 use std::str::FromStr;
 
 grammar;
 
-pub Games: Vec<day_two_ast::Game> = {
+pub Games: Vec<ast::Game> = {
     Game* => <>
 }
 
-Game: day_two_ast::Game = {
-    "Game" <n:Num> ":" <r:Rounds> => day_two_ast::Game::new(n, r),
+Game: ast::Game = {
+    "Game" <n:Num> ":" <r:Rounds> => ast::Game::new(n, r),
 }
 
 Rounds = Separated<Round, ";">;
 
-Round: day_two_ast::Round = {
-    Separated<Cube, ","> => day_two_ast::Round::from_cubes(<>),
+Round: ast::Round = {
+    Separated<Cube, ","> => ast::Round::from_cubes(<>),
 };
 
 Separated<T, Sep>:  Vec<T> = {
@@ -25,8 +25,8 @@ Separated<T, Sep>:  Vec<T> = {
     T => vec![<>],
 }
 
-Cube: day_two_ast::Cube = {
-    <n:Num> <c:Color> => day_two_ast::Cube(n, c)
+Cube: ast::Cube = {
+    <n:Num> <c:Color> => ast::Cube(n, c)
 };
 
 Num: u32 = {

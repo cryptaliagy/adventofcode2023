@@ -71,3 +71,35 @@ fn find_latest_val(line: &str, numbers: &HashMap<&str, u32>) -> u32 {
         .unwrap()
         .1
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_part_one() {
+        let input = r#"
+1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet
+"#
+        .trim();
+        assert_eq!(part_one(input), 142);
+    }
+
+    #[test]
+    fn test_part_two() {
+        let input = r#"
+        two1nine
+        eightwothree
+        abcone2threexyz
+        xtwone3four
+        4nineeightseven2
+        zoneight234
+        7pqrstsixteen
+                "#
+        .trim();
+        assert_eq!(part_two(input), 281);
+    }
+}
