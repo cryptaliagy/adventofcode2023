@@ -33,8 +33,8 @@ fn main() {
             }
         },
         "2" => match args.part {
-            1 => day_02::part_one(&input),
-            2 => day_02::part_two(&input),
+            1 => day_02::part_one(&input).into(),
+            2 => day_02::part_two(&input).into(),
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);

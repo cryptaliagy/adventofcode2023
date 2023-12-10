@@ -17,10 +17,10 @@ pub fn part_one(input: &str) -> i64 {
                 .into_iter()
                 .collect::<HashSet<_>>()
                 .intersection(&card.2.into_iter().collect::<HashSet<_>>())
-                .count() as u32
+                .count()
         })
         .filter(|&count| count > 0)
-        .map(|count| 2i64.pow(count - 1))
+        .map(|count| 2i64.pow((count - 1) as u32))
         .sum()
 }
 

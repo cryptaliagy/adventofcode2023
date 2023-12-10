@@ -27,6 +27,6 @@ Mapping: Mapping = {
     Num Num Num => Mapping::new(<>),
 };
 
-Num: usize = {
-    r"[0-9]+" => usize::from_str(<>).unwrap()
+Num: i64 = {
+    r"[0-9]+" => i64::from_str(<>).unwrap()
 };

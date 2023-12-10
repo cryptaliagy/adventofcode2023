@@ -11,6 +11,6 @@ Card: Card = {
     "Card" <i:Num> ":" <w:Num+> "|" <o:Num+> => Card(i, w, o),
 }
 
-Num: u32 = {
-    r"[0-9]+" => u32::from_str(<>).unwrap()
+Num: i64 = {
+    r"[0-9]+" => i64::from_str(<>).unwrap()
 };

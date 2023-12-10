@@ -1,1 +1,1 @@
-pub struct Card(pub u32, pub Vec<u32>, pub Vec<u32>);
+pub struct Card(pub i64, pub Vec<i64>, pub Vec<i64>);
