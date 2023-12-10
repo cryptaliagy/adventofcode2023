@@ -25,39 +25,39 @@ fn main() {
 
     let result = match args.id.as_str() {
         "1" => match args.part {
-            1 => day_one::part_one(&input),
-            2 => day_one::part_two(&input),
+            1 => day_01::part_one(&input),
+            2 => day_01::part_two(&input),
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);
             }
         },
         "2" => match args.part {
-            1 => day_two::part_one(&input),
-            2 => day_two::part_two(&input),
+            1 => day_02::part_one(&input),
+            2 => day_02::part_two(&input),
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);
             }
         },
         "4" => match args.part {
-            1 => day_four::part_one(&input),
+            1 => day_04::part_one(&input),
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);
             }
         },
         "5" => match args.part {
-            1 => day_five::part_one(&input) as u32,
-            2 => day_five::part_two(&input) as u32,
+            1 => day_05::part_one(&input) as u32,
+            2 => day_05::part_two(&input) as u32,
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);
             }
         },
         "6" => match args.part {
-            1 => day_six::part_one(&input) as u32,
-            2 => day_six::part_two(&input) as u32,
+            1 => day_06::part_one(&input) as u32,
+            2 => day_06::part_two(&input) as u32,
             _ => {
                 eprintln!("Part {} not found", args.part);
                 std::process::exit(1);

@@ -1,5 +1,10 @@
-use crate::day_two_ast::{Cube, Round};
-use crate::day_two_parser::GamesParser;
+use lalrpop_util::lalrpop_mod;
+
+pub(crate) mod ast;
+lalrpop_mod!(pub(crate) parser, "/day_02/parser.rs");
+
+use ast::{Cube, Round};
+use parser::GamesParser;
 
 pub fn part_one(input: &str) -> u32 {
     let maxima = Round::from_cubes(vec![

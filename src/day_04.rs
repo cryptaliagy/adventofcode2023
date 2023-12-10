@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use lalrpop_util::lalrpop_mod;
 
 pub(crate) mod ast;
-lalrpop_mod!(pub(crate) parser, "/day_four/parser.rs");
+lalrpop_mod!(pub(crate) parser, "/day_04/parser.rs");
 
 use parser::CardsParser;
 
