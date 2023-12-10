@@ -10,7 +10,7 @@ pub fn part_one(input: &str) -> i64 {
     for line in input.lines() {
         let numbers = line
             .split_ascii_whitespace()
-            .map(|x| x.parse::<i128>().unwrap())
+            .map(|x| x.parse::<_>().unwrap())
             .collect::<Vec<_>>();
 
         let x = numbers.len() as i64;
@@ -29,7 +29,7 @@ pub fn part_two(input: &str) -> i64 {
     for line in input.lines() {
         let numbers = line
             .split_ascii_whitespace()
-            .map(|x| x.parse::<i128>().unwrap())
+            .map(|x| x.parse::<_>().unwrap())
             .collect::<Vec<_>>();
 
         total += interpolator.interpolate(&numbers, -1).unwrap();
