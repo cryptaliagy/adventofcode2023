@@ -83,7 +83,7 @@ impl From<i128> for Rational {
 }
 
 struct BarycentricWeights {
-    cache: HashMap<(usize, usize), Rational>,
+    cache: HashMap<(usize, usize), i128>,
 }
 
 impl BarycentricWeights {
@@ -93,17 +93,8 @@ impl BarycentricWeights {
         }
     }
 
-    pub fn get(&mut self, n: usize, j: usize) -> Rational {
-        if let Some(r) = self.cache.get(&(n, j)) {
-            return *r;
-        }
-
-        let r = self.get_inner(n, j);
-        self.cache.insert((n, j), r);
-        r
-    }
-
-    fn get_inner(&self, n: usize, j: usize) -> Rational {
+    #[allow(dead_code)]
+    pub fn get_uncached(&self, n: usize, j: usize) -> Rational {
         let mut total: i128 = 1;
 
         let j = j as i128;
@@ -118,6 +109,32 @@ impl BarycentricWeights {
         }
 
         Rational::new(1, total)
+    }
+
+    pub fn get(&mut self, n: usize, j: usize) -> Rational {
+        if let Some(r) = self.cache.get(&(n, j)) {
+            return Rational::new(1, *r);
+        }
+
+        let r = self.get_inner(n, j);
+        self.cache.insert((n, j), r);
+        Rational::new(1, r)
+    }
+
+    fn get_inner(&mut self, n: usize, j: usize) -> i128 {
+        if j == 0 {
+            let operator = if n % 2 == 0 { -1 } else { 1 };
+            -(*self
+                .cache
+                .entry((n - 1, 0))
+                .or_insert_with(|| ((1..(n - 1)).product::<usize>() as i128) * -operator)
+                * (n - 1) as i128)
+        } else {
+            let i = j as i128;
+            let k = n as i128;
+
+            -(*self.cache.get(&(n, j - 1)).unwrap() * i) / (k - i)
+        }
     }
 }
 
@@ -160,11 +177,32 @@ mod tests {
     use rand::Rng;
     use std::ops::Range;
 
+    fn get_uncached(n: usize, j: usize) -> Rational {
+        let mut total: i128 = 1;
+
+        let j = j as i128;
+        let n = n as i128;
+
+        for i in 0..j {
+            total *= j - i;
+        }
+
+        for i in (j + 1)..n {
+            total *= j - i;
+        }
+
+        Rational::new(1, total)
+    }
+
     #[test]
     fn test_barycentric_weight() {
         let mut weights = BarycentricWeights::new();
 
-        assert_eq!(weights.get(3, 0), Rational::new(1, 2));
+        for n in 3..20 {
+            for j in 0..n {
+                assert_eq!(weights.get(n, j), get_uncached(n, j), "{}, {}", n, j);
+            }
+        }
     }
 
     fn test_interpolate_polynomial_random_target(
@@ -180,6 +218,16 @@ mod tests {
         let y = interpolator.interpolate(&points, x).unwrap();
 
         assert_eq!(y, polynomial(x as i128) as i64);
+    }
+
+    #[test]
+    fn test_barycentric_weights() {
+        let mut weights = BarycentricWeights::new();
+
+        let n = 9;
+        for i in 0..n {
+            println!("{:?} {:?}", weights.get(n, i), get_uncached(n, i));
+        }
     }
 
     #[test]
