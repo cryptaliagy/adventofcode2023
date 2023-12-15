@@ -67,10 +67,7 @@ fn construct_from_input(input: &str) -> (&str, Paths<'_>) {
 
     let mut paths = HashMap::new();
 
-    for line in lines {
-        if line.is_empty() {
-            continue;
-        }
+    for line in lines.filter(|&x| !x.is_empty()) {
         let (from, to) = line.split_once(" = ").unwrap();
 
         let from = from.trim();
