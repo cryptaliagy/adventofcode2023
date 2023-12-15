@@ -180,6 +180,21 @@ fn main() {
                 std::process::exit(1);
             }
         },
+        15 => match args.part {
+            1 => day_15::part_one(&input),
+            // 2 => day_15::part_two(&input),
+            _ => {
+                #[cfg(feature = "logging")]
+                {
+                    error!(?args, "Invalid part number",);
+                }
+                #[cfg(not(feature = "logging"))]
+                {
+                    eprintln!("Invalid part number: {}", args.part);
+                }
+                std::process::exit(1);
+            }
+        },
         _ => {
             #[cfg(feature = "logging")]
             {
