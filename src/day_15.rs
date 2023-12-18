@@ -9,12 +9,34 @@ fn hash(sequence: &str) -> u8 {
     current
 }
 
+enum Initialization<'a> {
+    Removal(&'a str),
+    Lens(&'a str, usize, bool),
+}
+
 pub fn part_one(input: &str) -> i64 {
     input
         .split(',')
         .map(|x| x.trim())
         .map(hash)
         .fold(0i64, |acc, x| acc + (x as i64))
+}
+
+pub fn part_two(input: &str) -> i64 {
+    let sequence = input.split(',').map(|x| {
+        let x = x.trim();
+
+        if x.ends_with('-') {
+            Initialization::Removal(&x[..x.len() - 1])
+        } else {
+            let (label, length) = x.split_once('=').unwrap();
+            let length = length.parse::<usize>().unwrap();
+
+            Initialization::Lens(label, length, true)
+        }
+    });
+
+    0
 }
 
 #[cfg(test)]
