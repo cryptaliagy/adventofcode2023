@@ -23,11 +23,11 @@ pub fn part_one(input: &str) -> i64 {
 }
 
 pub fn part_two(input: &str) -> i64 {
-    let sequence = input.split(',').map(|x| {
+    let _sequence = input.split(',').map(|x| {
         let x = x.trim();
 
         if x.ends_with('-') {
-            Initialization::Removal(&x[..x.len() - 1])
+            Initialization::Removal(x.strip_suffix('-').unwrap())
         } else {
             let (label, length) = x.split_once('=').unwrap();
             let length = length.parse::<usize>().unwrap();

@@ -6,5 +6,6 @@ pub mod day_06;
 pub mod day_08;
 pub mod day_09;
 pub mod day_15;
+pub mod day_17;
 pub mod day_18;
 pub mod utils;
