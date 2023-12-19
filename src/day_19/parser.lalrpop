@@ -1,0 +1,63 @@
+use crate::day_19::ast::*;
+use std::str::FromStr;
+
+grammar;
+
+pub Engine: Engine = {
+    Workflow+ Part* => Engine::new(<>),
+}
+
+Workflows: Vec<Workflow> = {
+    Workflow+ => <>,
+}
+
+Part: Part<u64> = {
+    "{" "x=" <x:Num> "," "m=" <m:Num> "," "a=" <a:Num> "," "s=" <s:Num>  "}" => Part::<u64>::new(x, m, a, s),
+}
+
+Workflow: Workflow = {
+    <l:String> "{" <s:Separated<Rule>> "}" => Workflow(l, s),
+}
+
+Rule: Rule = {
+    <c:Condition> ":" <l:Label> => Rule(c, l),
+    Label => Rule(Condition::Always, <>),
+}
+
+Condition: Condition = {
+    Rating Operation Num => Condition::new(<>),
+}
+
+Operation: Operation = {
+    ">" => Operation::GreaterThan,
+    "<" => Operation::LessThan,
+}
+
+Rating: Rating = {
+    "x" => Rating::Cool,
+    "m" => Rating::Musical,
+    "a" => Rating::Aerodynamic,
+    "s" => Rating::Shiny,
+}
+
+Label: WorkflowLabel = {
+    "A" => WorkflowLabel::Accepted,
+    "R" => WorkflowLabel::Rejected,
+    String => WorkflowLabel::Named(String::from(<>)),
+}
+
+Num: u64 = {
+    r"[0-9]+" => u64::from_str(<>).unwrap()
+};
+
+Separated<T>:  Vec<T> = {
+    <mut v:Separated<T>> "," <e:T> => {
+        v.push(e);
+        v
+    },
+    T => vec![<>],
+}
+
+String: String = {
+    r"[a-zA-Z]+" => String::from(<>),
+}
