@@ -6,15 +6,36 @@ lalrpop_mod!(pub(crate) parser, "/day_19/parser.rs");
 use ast::Constraint;
 use parser::EngineParser;
 
+use tracing::info;
+
 pub fn part_one(input: &str) -> i64 {
-    EngineParser::new().parse(input).unwrap().solve() as i64
+    let engine = EngineParser::new().parse(input).unwrap();
+
+    let start = std::time::Instant::now();
+    let result = engine.solve() as i64;
+    let elapsed = start.elapsed();
+
+    info!(
+        "Traversed inner tree in {}",
+        crate::utils::format_duration(elapsed)
+    );
+
+    result
 }
 
 pub fn part_two(input: &str) -> i64 {
-    EngineParser::new()
-        .parse(input)
-        .unwrap()
-        .ways_to_win(Constraint(1, 4000)) as i64
+    let engine = EngineParser::new().parse(input).unwrap();
+
+    let start = std::time::Instant::now();
+    let result = engine.ways_to_win(Constraint(1, 4000)) as i64;
+    let elapsed = start.elapsed();
+
+    info!(
+        "Traversed inner tree in {}",
+        crate::utils::format_duration(elapsed)
+    );
+
+    result
 }
 
 #[cfg(test)]
