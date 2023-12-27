@@ -31,18 +31,21 @@ impl std::ops::Mul for Rational {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self::Output {
-        Self::new(self.0 * rhs.0, self.1 * rhs.1)
+        let gcd1 = gcd(self.0, rhs.1);
+        let gcd2 = gcd(self.1, rhs.0);
+
+        let n = (self.0 / gcd1) * (rhs.0 / gcd2);
+        let d = (self.1 / gcd2) * (rhs.1 / gcd1);
+        Self::new(n, d)
     }
 }
 
 impl std::ops::Div for Rational {
     type Output = Self;
 
+    #[allow(clippy::suspicious_arithmetic_impl)]
     fn div(self, rhs: Self) -> Self::Output {
-        if rhs.0 == 0 {
-            panic!("Cannot divide by zero");
-        }
-        Self::new(self.0 * rhs.1, self.1 * rhs.0)
+        self * Self(rhs.1, rhs.0)
     }
 }
 
@@ -50,10 +53,23 @@ impl std::ops::Add for Rational {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
-        let n = self.0 * rhs.1 + self.1 * rhs.0;
-        let d = self.1 * rhs.1;
+        let gcd1 = gcd(self.1, rhs.1);
 
-        Self::new(n, d)
+        let other_numerator = rhs.0 * (self.1 / gcd1);
+        let self_numerator = self.0 * (rhs.1 / gcd1);
+
+        let n = self_numerator + other_numerator;
+
+        let max_den = self.1.max(rhs.1);
+        let min_den = self.1.min(rhs.1);
+
+        let res = min_den.checked_mul(max_den / gcd1);
+
+        if res.is_none() {
+            println!("{} {} {} {}", self.0, self.1, rhs.0, rhs.1);
+        }
+
+        Self::new(n, min_den * (max_den / gcd1))
     }
 }
 
@@ -61,10 +77,7 @@ impl std::ops::Sub for Rational {
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        let n = self.0 * rhs.1 - self.1 * rhs.0;
-        let d = self.1 * rhs.1;
-
-        Self::new(n, d)
+        self + Self(-rhs.0, rhs.1)
     }
 }
 
@@ -83,7 +96,7 @@ impl From<i128> for Rational {
 }
 
 struct BarycentricWeights {
-    cache: HashMap<(usize, usize), Rational>,
+    cache: HashMap<(i128, i128), Rational>,
 }
 
 impl BarycentricWeights {
@@ -93,7 +106,7 @@ impl BarycentricWeights {
         }
     }
 
-    pub fn get(&mut self, n: usize, j: usize) -> Rational {
+    pub fn get(&mut self, n: i128, j: i128) -> Rational {
         if let Some(r) = self.cache.get(&(n, j)) {
             return *r;
         }
@@ -103,11 +116,8 @@ impl BarycentricWeights {
         r
     }
 
-    fn get_inner(&self, n: usize, j: usize) -> Rational {
-        let mut total: i128 = 1;
-
-        let j = j as i128;
-        let n = n as i128;
+    fn get_inner(&self, n: i128, j: i128) -> Rational {
+        let mut total = 1;
 
         for i in 0..j {
             total *= j - i;
@@ -133,17 +143,15 @@ impl Interpolator {
     }
 
     pub fn interpolate(&mut self, points: &[i128], x: i64) -> Result<i64, ()> {
-        let n = points.len();
+        let n = points.len() as i128;
 
         let mut denominator = Rational::from(0);
         let mut numerator = Rational::from(0);
 
         for (i, &y) in points.iter().enumerate() {
-            let weight = self.weights.get(n, i);
+            let weight = self.weights.get(n, i as i128);
 
-            let x = x.checked_sub_unsigned(i as u64).unwrap() as i128;
-
-            let common = weight / Rational::from(x);
+            let common = weight / Rational::from(x as i128 - i as i128);
             denominator = denominator + common;
 
             numerator = numerator + (common * Rational::from(y));
